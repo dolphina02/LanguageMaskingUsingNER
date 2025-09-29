@@ -113,9 +113,10 @@ print(masked_text)  # [PERSON]은 [LOCATION]에서 [ORGANIZATION]에 다닙니�
 
 ## 🚀 설치 방법
 
-### 기본 설치
+<details>
+<summary><strong>📦 기본 설치 (클릭하여 펼치기)</strong></summary>
 
-#### 온라인 환경 (일반적인 경우)
+### 온라인 환경 (일반적인 경우)
 ```bash
 # 가상환경 생성 (권장)
 python -m venv venv
@@ -126,7 +127,10 @@ source venv/bin/activate  # Linux/Mac
 pip install pandas numpy
 ```
 
-#### 🔒 폐쇄망 환경 (오프라인 설치)
+</details>
+
+<details>
+<summary><strong>🔒 폐쇄망 환경 (오프라인 설치)</strong></summary>
 
 **방법 1: 자동 스크립트 사용 (권장)**
 ```bash
@@ -215,7 +219,10 @@ mkdir -p ~/.cache/huggingface/hub/models--taeminlee--gliner_ko/
 cp downloaded_model_files/* ~/.cache/huggingface/hub/models--taeminlee--gliner_ko/
 ```
 
-### GLiNER 모델 기반 (ModelBaseMasking.py)
+</details>
+
+<details>
+<summary><strong>🤖 GLiNER 모델 기반 (ModelBaseMasking.py)</strong></summary>
 
 #### 온라인 설치
 ```bash
@@ -246,7 +253,10 @@ mkdir -p ~/.cache/huggingface/hub/models--taeminlee--gliner_ko
 cp downloaded_model_files/* ~/.cache/huggingface/hub/models--taeminlee--gliner_ko/
 ```
 
-#### 한국어 형태소 분석기 설치 (선택사항 - 정확도 향상)
+</details>
+
+<details>
+<summary><strong>⚡ Databricks/Spark 환경 (ModelBaseAsUDF.py)</strong></summary>
 
 **방법 1: KoNLPy (권장 - 가장 안정적)**
 ```bash
@@ -292,7 +302,10 @@ pip install soynlp
 # 의존성 없음, 가장 설치 쉬움
 ```
 
-### spaCy 기반
+</details>
+
+<details>
+<summary><strong>🔍 spaCy 기반</strong></summary>
 
 #### 온라인 설치
 ```bash
@@ -323,6 +336,11 @@ pip install --no-index --find-links ./spacy_offline ko_core_news_sm-3.8.0-py3-no
 # 3. 설치 확인
 python -c "import spacy; nlp = spacy.load('ko_core_news_sm'); print('spaCy 오프라인 설치 완료!')"
 ```
+
+</details>
+
+<details>
+<summary><strong>⚠️ spaCy 모델 다운로드 문제 해결</strong></summary>
 
 **spaCy 모델 다운로드 문제 해결:**
 ```bash
@@ -380,7 +398,12 @@ pip download --only-binary=:all: gliner torch transformers
    - 클러스터 → Libraries → Install New → Upload
    - 미리 다운로드한 .whl 파일들을 업로드
 
-2. **클러스터 설정 권장사항**:
+</details>
+
+<details>
+<summary><strong>🔧 Databricks 클러스터 설정</strong></summary>
+
+**클러스터 설정 권장사항:**
    ```
    Driver: Standard_DS3_v2 (4 cores, 14GB RAM) 이상
    Workers: Standard_DS3_v2 (4 cores, 14GB RAM) 이상
@@ -403,7 +426,10 @@ pip download --only-binary=:all: gliner torch transformers
 dbutils.library.restartPython()
 ```
 
-## 💰 Databricks 비용 계산 (한국 기준)
+</details>
+
+<details>
+<summary><strong>💰 Databricks 비용 계산 (한국 기준)</strong></summary>
 
 ### DBU 소모량 예상치
 
@@ -503,9 +529,10 @@ df = df.repartition(200)  # 파티션 수 최적화
 3. **대규모만**: Databricks `ModelBaseAsUDF.py` 사용
 4. **하이브리드**: 민감도에 따라 도구 선택적 사용
 
-## �  설치 문제 해결
+## 🔧 설치 문제 해결
 
-### 자주 발생하는 문제들
+<details>
+<summary><strong>⚠️ 자주 발생하는 문제들</strong></summary>
 
 #### 1. GLiNER 모델 다운로드 실패
 ```bash
@@ -658,7 +685,8 @@ if __name__ == "__main__":
 
 ## 💡 사용 방법
 
-### 1. 간단한 테스트
+<details>
+<summary><strong>🧪 간단한 테스트</strong></summary>
 ```python
 # 정규식 기반 (가장 간단)
 from RuleBaseMasking import simple_masking
@@ -687,7 +715,12 @@ from pyspark.sql.functions import col
 df_masked = df.withColumn("masked_text", gliner_mask_udf(col("text")))
 ```
 
+</details>
+
 ## 📊 성능 비교
+
+<details>
+<summary><strong>📈 도구별 성능 비교표</strong></summary>
 
 | 도구 | 정확도 | 속도 | 메모리 | 의존성 | 설치 복잡도 |
 |------|--------|------|--------|--------|-------------|
@@ -702,7 +735,12 @@ df_masked = df.withColumn("masked_text", gliner_mask_udf(col("text")))
 - **ModelBaseMasking.py**: ~30초 (첫 실행), ~10초 (이후)
 - **ModelBaseAsUDF.py**: ~5초 (분산 환경)
 
+</details>
+
 ## 🎯 권장사항
+
+<details>
+<summary><strong>📈 데이터 규모별 선택 가이드</strong></summary>
 
 ### 📈 **데이터 규모별 선택 (비용 고려)**
 
@@ -751,7 +789,10 @@ ModelBaseAsUDF.py (Databricks/Spark 환경) - 필수
 - **테스트 단계**: 소량 데이터로 Databricks 테스트
 - **운영 단계**: 데이터 규모에 따라 선택적 사용
 
-### 🔧 **마스킹 방식별 선택**
+</details>
+
+<details>
+<summary><strong>🔧 마스킹 방식별 선택</strong></summary>
 
 #### 부분 마스킹 (홍길동 → 홍*동)
 - `ModelBaseMasking.py`
@@ -761,7 +802,10 @@ ModelBaseAsUDF.py (Databricks/Spark 환경) - 필수
 - `RuleBaseMasking.py`
 - `spacyRuleFullMasking.py.py`
 
-## ⚠️ 주의사항 및 시스템 요구사항
+</details>
+
+<details>
+<summary><strong>⚠️ 주의사항 및 시스템 요구사항</strong></summary>
 
 ### 시스템 요구사항
 - **Python**: 3.8 이상
@@ -792,7 +836,10 @@ ModelBaseAsUDF.py (Databricks/Spark 환경) - 필수
 5. **개인정보 처리**: 실제 개인정보 처리 시 관련 법규 준수 필요
 6. **성능**: 첫 실행 시 모델 로딩으로 인한 지연 발생 가능
 
-### 🪟 Windows 환경 특별 주의사항
+</details>
+
+<details>
+<summary><strong>🪟 Windows 환경 특별 주의사항</strong></summary>
 
 #### 자주 발생하는 Windows 문제들
 
@@ -896,6 +943,8 @@ setx HF_HOME "%USERPROFILE%\huggingface_cache"
 - **보안**: 개인정보 처리 시 데이터 보안 정책 준수
 - **라이선스**: 각 라이브러리의 라이선스 확인 필요
 - **Windows 정책**: 그룹 정책으로 인한 설치 제한 확인
+
+</details>
 
 ## 🤝 기여하기
 
